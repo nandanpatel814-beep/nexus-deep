@@ -8,7 +8,7 @@
 [![Next.js 15](https://img.shields.io/badge/Next.js-15-black.svg)](https://nextjs.org/)
 [![Google Gemini Flash](https://img.shields.io/badge/Engine-Gemini%202.0%20Flash-0ea5e9.svg)](https://aistudio.google.com/)
 [![Hosting Cost](https://img.shields.io/badge/Hosting%20Cost-%240.00-emerald.svg)]()
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/nandanpatel814-beep/nexus-deep)
 
 <p align="center">
   <a href="#quickstart">Quickstart</a> •
@@ -93,7 +93,7 @@ Run NexusDeep locally in under 60 seconds:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/nexus-deep.git
+git clone https://github.com/nandanpatel814-beep/nexus-deep.git
 
 # 2. Enter directory
 cd nexus-deep

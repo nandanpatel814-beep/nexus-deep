@@ -62,7 +62,7 @@ export function Header({ onOpenSettings, hasApiKey }: HeaderProps) {
 
           {/* GitHub Star Button */}
           <a
-            href="https://github.com"
+            href="https://github.com/nandanpatel814-beep/nexus-deep"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center space-x-2 px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-medium text-xs shadow-md shadow-cyan-900/20 transition active:scale-95"
