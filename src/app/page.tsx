@@ -345,6 +345,8 @@ export default function Home() {
             vectorsCount={plan?.vectors.length || 5}
             sourcesCount={sources.length}
             durationMs={durationMs}
+            plan={plan}
+            sources={sources}
             onReset={() => {
               setStatus('idle');
               setQuery('');

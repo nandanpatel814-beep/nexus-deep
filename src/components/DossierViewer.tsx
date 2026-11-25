@@ -12,7 +12,10 @@ import {
   Clock,
   Sparkles,
   ExternalLink,
+  Share2,
 } from 'lucide-react';
+import { KnowledgeGraph } from './KnowledgeGraph';
+import { ResearchPlan, SourceItem } from '@/lib/types';
 
 interface DossierViewerProps {
   report: string;
@@ -20,6 +23,8 @@ interface DossierViewerProps {
   vectorsCount: number;
   sourcesCount: number;
   durationMs: number;
+  plan?: ResearchPlan | null;
+  sources?: SourceItem[];
   onReset: () => void;
 }
 
@@ -29,9 +34,12 @@ export function DossierViewer({
   vectorsCount,
   sourcesCount,
   durationMs,
+  plan,
+  sources = [],
   onReset,
 }: DossierViewerProps) {
   const [copied, setCopied] = useState(false);
+  const [activeTab, setActiveTab] = useState<'dossier' | 'graph'>('dossier');
 
   const handleCopy = async () => {
     try {
@@ -108,7 +116,6 @@ export function DossierViewer({
           .slice(1, -1)
           .map((c) => c.trim());
 
-        // Check if it's a separator row like | --- | --- |
         if (cells.every((c) => /^:?-+:?$/.test(c))) {
           continue;
         }
@@ -173,7 +180,6 @@ export function DossierViewer({
   };
 
   const renderInlineMarkdown = (text: string) => {
-    // Quick parse bold and links
     const parts: React.ReactNode[] = [];
     const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
     let lastIndex = 0;
@@ -235,7 +241,7 @@ export function DossierViewer({
               </span>
             </h3>
             <p className="text-xs text-slate-400">
-              Autonomous multi-vector synthesis ready for publication & decision making
+              Autonomous multi-vector synthesis ready for publication & visual exploration
             </p>
           </div>
         </div>
@@ -296,10 +302,55 @@ export function DossierViewer({
         </div>
       </div>
 
-      {/* Report Document Frame */}
-      <div className="rounded-2xl border border-slate-800 bg-slate-950/90 shadow-2xl p-6 sm:p-10 dossier-prose backdrop-blur-md">
-        {renderFormattedReport(report)}
+      {/* View Switcher: Dossier vs Interactive Knowledge Graph */}
+      <div className="no-print flex items-center justify-between border-b border-slate-800 pb-2">
+        <div className="flex items-center space-x-2 bg-slate-950/80 p-1.5 rounded-xl border border-slate-800">
+          <button
+            onClick={() => setActiveTab('dossier')}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-bold transition ${
+              activeTab === 'dossier'
+                ? 'bg-cyan-500 text-black shadow-md shadow-cyan-500/30'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <FileText className="w-3.5 h-3.5" />
+            <span>Executive Dossier</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('graph')}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-bold transition relative ${
+              activeTab === 'graph'
+                ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/30'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Share2 className="w-3.5 h-3.5" />
+            <span>Interactive Knowledge Graph</span>
+            <span className="text-[9px] uppercase font-black px-1.5 py-0.2 rounded-full bg-cyan-400 text-black ml-1">
+              v1.1
+            </span>
+          </button>
+        </div>
+
+        <div className="text-xs text-slate-400 hidden sm:block">
+          {activeTab === 'dossier' ? 'Scroll down to read report' : 'Click & drag nodes to explore physics graph'}
+        </div>
       </div>
+
+      {/* Tab 1: Executive Dossier View */}
+      {activeTab === 'dossier' && (
+        <div className="rounded-2xl border border-slate-800 bg-slate-950/90 shadow-2xl p-6 sm:p-10 dossier-prose backdrop-blur-md animate-in fade-in duration-200">
+          {renderFormattedReport(report)}
+        </div>
+      )}
+
+      {/* Tab 2: Interactive Knowledge Graph View */}
+      {activeTab === 'graph' && (
+        <div className="animate-in fade-in duration-200">
+          <KnowledgeGraph topic={topic} plan={plan || null} sources={sources} />
+        </div>
+      )}
     </div>
   );
 }
